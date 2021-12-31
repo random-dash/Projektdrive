@@ -1,0 +1,40 @@
+body{
+    overflow-x: hidden;
+}
+
+.navbar-brand{
+    left: 80;
+    top: 0;
+}
+
+#ang{
+    background-color: rgba(247, 247, 247, 0.8);
+}
+
+#loginregbox{
+    background-color: rgba(247, 247, 247, 0.8);
+}
+
+#imprbg{
+    background-color: rgba(41, 43, 44, 0.8);
+}
+
+#logregdiv{
+    border-radius: 10px;
+}
+
+.btn-dark{
+    transition: 0.75s ease-in-out;
+}
+
+.btn-dark.focus, .btn-dark:focus{
+    width: 100% !important;
+}
+
+.collapsing{
+    transition: 0.75s ease-in-out;
+}
+
+.btn-gradient-dark{
+    display: flex;
+}
