@@ -64,7 +64,7 @@
                             <span class="input-group-text w-25" id="basic-addon1"><a class="text-dark text-decoration-none" href="mailto:asquare@gmail.com">Tap to Mail Us</a></span>
                         </div>
                         <br>
-                        <div class="card-group" style="width: 33rem;">
+                        <div class="card-group w-75">
                             <div class="card text-center">
                                 <img src="img\bob.jpg" class="card-img-top" alt="Ahmed Abdelhady">
                                 <h4 class="card-title mt-2" >Developer</h4>

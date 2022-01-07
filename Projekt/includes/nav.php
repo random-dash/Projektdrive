@@ -83,7 +83,7 @@
 <footer class="fixed-bottom">
 <ul class="nav bg-secondary w-25 justify-content-center">
     <li class="nav-item">
-        <a class="nav-link text-dark bi-fingerprint" href="hilfe.php"> Über uns</a>
+        <a class="nav-link text-dark bi-question-square" href="hilfe.php"> Hilfe</a>
     </li>
     <li class="nav-item">
         <a class="nav-link text-dark bi-building" href="impressum.php"> Impressum</a>

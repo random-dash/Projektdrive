@@ -1,5 +1,5 @@
 <?php
-    include 'includes/dbaccess.php';
+  include 'includes/dbaccess.php';
   include "includes/nav.php";
 ?>
 
@@ -18,7 +18,7 @@
           }
       }
 ?>
-<table class="table table-striped table-dark">
+<table class="table table-striped table-dark table-hover">
   <thead>
     <tr>
       <th scope="col">ID</th>

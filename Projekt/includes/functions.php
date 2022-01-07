@@ -1,7 +1,6 @@
 <?php
 
 function emptyInputRegister($anrede, $vorname, $nachname, $username, $email, $pwd, $confpassword){
-    $result;
     if(empty($anrede) || empty($vorname) || empty($nachame) || empty($username) || empty($email) || empty($pwd) || empty($confpassword)){
         $result = true;
     }else{
@@ -12,7 +11,6 @@ function emptyInputRegister($anrede, $vorname, $nachname, $username, $email, $pw
 }
 
 function invalidUsername($username){
-    $result;
     if(!preg_match("/^[a-zA-Z0-9]*$/", $username)){
         $result = true;
     }else{
@@ -22,7 +20,6 @@ function invalidUsername($username){
 }
 
 function invalidEmail($email){
-    $result;
     if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
         $result = true;
     }else{
@@ -32,7 +29,6 @@ function invalidEmail($email){
 }
 
 function passwordMatcher($pwd, $confpassword){
-    $result;
     if($pwd !== $confpassword){
         $result = true;
     }else{
@@ -90,7 +86,6 @@ function createUser($connect, $anrede, $vorname, $nachname, $username, $email, $
 }
 
 function emptyLogin($log, $logpwd){
-    $result;
     if(empty($log) || empty($logpwd)){
         $result = true;
     }else{

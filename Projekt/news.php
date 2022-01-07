@@ -39,7 +39,7 @@
     $result = mysqli_stmt_get_result($stmt);
 
     while($row = mysqli_fetch_assoc($result)){
-      echo "<div class='card bg-light mb-3' style='width: 20rem;'>
+      echo "<div class='card bg-light m-1 mb-3' style='width: 20rem;'>
           <img src='".$row['filepath']."' class='card-img-top' alt='...'>
             <div class='card-body'>
               <p class='card-text'>".$row['txt']."</p>

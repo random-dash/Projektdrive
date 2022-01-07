@@ -1,5 +1,5 @@
 <?php
-    include 'includes/dbaccess.php';
+  include 'includes/dbaccess.php';
   include "includes/nav.php";
   include "includes/functions.php";
 ?>
@@ -7,57 +7,94 @@
 <body class="bg-dark">
 
 <div class="row justify-content-center m-3">
+  <table align="center" class='table table-striped table-dark table-hover'>
+  <thead>
+    <tr>
+      <th scope="col">E-Mail</th>
+      <th scope="col">Betreff</th>
+      <th scope="col">Datum</th>
+      <th scope="col">Status</th>
+      <th scope="col">Aktion</th>
+    </tr>
+  </thead>
+  <tbody class="justify-content-center">
+    <tr>
+        <td colspan="3">
+          <button type='button' class='btn btn-primary w-100' data-toggle='modal' data-target='#exampleModal'>
+          Neues Ticket erstellen
+          </button>
+        </td>
+        <td>Sortieren nach:</td>
+        <td>
+          <form action='tickets.php' method="POST">
+            <input class="btn btn-primary" value='Offen' type='submit' name='offen'>
+            <input class="btn btn-success" value='Erfolgreich geschlossen' type='submit' name='suclose'>
+            <input class="btn btn-danger" value='Erfolglos geschlossen' type='submit' name='faclose'>
+            <input class="btn btn-info" value='Zeit' type='submit' name='time'>
+          </form>
+        </td>
+    </tr>
   <?php 
-
-    $sql = "SELECT * FROM tickets  WHERE userID = ?;";
+  if(isset($_POST['offen']) || isset($_POST['suclose']) || isset($_POST['faclose'])){
+    $sql = "SELECT * FROM tickets WHERE status = ? ORDER BY time DESC;";
     $stmt = mysqli_stmt_init($connect);
 
     if(!mysqli_stmt_prepare($stmt, $sql)){
-      header("location: ../index.php?error=statementfailed");
+      header("location: tickets.php?error=statementfailed");
+      exit();
+    }
+    if(isset($_POST['offen'])){
+      $status = 'offen';
+    }else if(isset($_POST['suclose'])){
+      $status = 'erfolgreich geschlossen';
+    }else{
+      $status = 'erfolglos geschlossen';
+
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $status);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+  }else{
+    $sql = "SELECT * FROM tickets WHERE userID = ? ORDER BY time DESC;";
+    $stmt = mysqli_stmt_init($connect);
+
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+      header("location: tickets.php?error=statementfailed");
       exit();
     }
 
     mysqli_stmt_bind_param($stmt, "s", $_SESSION["id"]);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-
-
+  }
+    
+    
 
     while($row = mysqli_fetch_assoc($result)){
-      echo "<div class='card bg-light mb-3' style='width: 20rem;'>
-          <img src='".$row['pic']."' class='card-img-top' alt='...'>
-            <div class='card-body'>
-                <h5 class='card-title'>".$row['title']."</h5>
-              <p class='card-text'>".$row['txt']."</p>
-            </div>
-            <ul class='list-group list-group-flush'>";
+      echo "<tr>
+      <form action='ticketInfo.php' method='POST'>
+      <input type='hidden' name='ticketID' value='".$row['ticketID']."'>
 
-            if($row['status'] == 'offen'){
-                echo "<li class='list-group-item bi-stopwatch text-primary'> ".$row['status']."</li>";
-            }else if($row['status'] == 'erfolgreich geschlossen'){
-                echo "<li class='list-group-item bi-check-all text-success'> ".$row['status']."</li>";
-            }else if($row['status'] == 'erfolglos geschlossen'){
-                echo "<li class='list-group-item bi-emoji-frown text-danger'> ".$row['status']."</li>";
-            }
-                
-            echo "</ul>
-            <div class='card-footer'>
-              <p class='card-text'><small class='text-muted'>Zuletzt bearbeitet am ".$row['time']."</small> </p>
-            </div>
-          </div>";
+          <td class='text-info'>".$_SESSION['email']."</td>
+          <td>".$row['title']."</td>
+          <td>".$row['time']."</td>
+          ";
+          if($row['status'] == 'offen'){
+            echo "<td class=' bi-stopwatch text-primary'> ".$row['status']."</td>";
+        }else if($row['status'] == 'erfolgreich geschlossen'){
+            echo "<td class=' bi-check-all text-success'> ".$row['status']."</td>";
+        }else if($row['status'] == 'erfolglos geschlossen'){
+            echo "<td class=' bi-emoji-frown text-danger'> ".$row['status']."</td>";
+        }echo " 
+          <td><input type='submit' value='Info' class='btn btn-primary w-50'><td>
+      </form>
+  </tr>
+      ";
     }
 
   ?>
-<div class='card bg-light mb-3' style='width: 20rem;'>
-    <img src='img/ticket.png' class='card-img-top' alt='...'>
-      <div class='card-body'>
-        <h5 class='card-title'>Neues Ticket</h5>
-        <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#exampleModal'>
-          Hinzufügen
-        </button>
-      </div>
-    </div>
-</div>
+</table>
 
 
 
@@ -97,3 +134,20 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 </body>
+
+<?php
+#----------------------------------------------------------
+
+    /*$sqluser = "SELECT * FROM user WHERE ID = ?;";
+    $stmtuser = mysqli_stmt_init($connect);
+
+    if(!mysqli_stmt_prepare($stmtuser, $sqluser)){
+      header("location: ../index.php?error=statementfaileduser");
+      exit();
+    }
+
+    mysqli_stmt_bind_param($stmtuser, "s", $_SESSION["id"]);
+    mysqli_stmt_execute($stmtuser);
+    $resultuser = mysqli_stmt_get_result($stmtuser);
+
+*/

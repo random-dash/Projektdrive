@@ -82,9 +82,7 @@
             exit();
         }
 
-        $desti = "uploads/news/".$target_file;
-
-        mysqli_stmt_bind_param($stmt, "ssss", $desti, $title, $text, $_SESSION["id"]);
+        mysqli_stmt_bind_param($stmt, "ssss", $target_file, $title, $text, $_SESSION["id"]);
         mysqli_stmt_execute($stmt);
         
         mysqli_stmt_close($stmt);
@@ -100,10 +98,10 @@
     }
     else {
         move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
-        $newimg = imagecreatetruecolor(150, 150);
+        /*$newimg = imagecreatetruecolor(150, 150);
         $getpath = pathinfo($_FILES["fileToUpload"]["name"]);
         $newfile = time() . ".".$getpath["extension"];
-        $target = $_SERVER["DOCUMENT_ROOT"] ."/Projekt/uploads/news/"
+        $target = $_SERVER["DOCUMENT_ROOT"] ."/Projekt/uploads/tickets/"
         . $newfile;
         if($getpath["extension"] == "png"){
             $img = imagecreatefrompng($target_file);
@@ -115,7 +113,7 @@
         imagecopyresized($newimg, $img, 0, 0, 0, 0, 150, 150, $oWidth, $oHeight);
         
         imagejpeg($newimg, $target, 100);
-        unlink($target_file);
-        uploads($connect, $newfile, $title, $text);
+        unlink($target_file);*/
+        uploads($connect, $target_file, $title, $text);
     }
 }
